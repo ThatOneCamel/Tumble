@@ -1,0 +1,15 @@
+Ideas:
+	$uptime
+		- Returns bot total uptime in a dm to the user that asks
+
+	$subs
+		- Returns who a user is subscribed to
+
+	$blah
+		- lorem ipsum
+
+Fixes:
+	Bot currently does not store all encountered posts, it only saves the instance of posts it gets
+	For example: If the page has 10 posts when it is downloaded, those 10 will be stored in the txt file and be acknowledged as old posts
+		If a new post, #11, comes along it pushes out the oldest of the previous 10, and that post is lost from the text file
+			IE: Old posts get overwritten in the text file and due to new postings; new posts should be appended instead of overwriting all post history
