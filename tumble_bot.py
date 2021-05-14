@@ -79,7 +79,7 @@ async def sendUpdate(channel):
 		except tweepy.TweepError as e:
 			print(e.response.text)
 		print("Waiting...")
-		await asyncio.sleep(10)
+		await asyncio.sleep(3600)
 
 @client.event
 async def on_ready():
