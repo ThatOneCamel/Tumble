@@ -11,35 +11,35 @@ CREATOR_A = "greatcheesecakepersona"
 CREATOR_B = "midgethetree"
 CREATOR_C = "deedee-sims" #Special Case
 CREATOR_TEST = "shadowefx"
-ID_FILENAME = "users.dat"
-SUBS_FILENAME = "creators.dat"
+ID_FILENAME = tumble_files.ID_FILENAME
+SUBS_FILENAME = tumble_files.SUBS_FILENAME
 
 #Creating an instance of the discord client for the bot
+intents = discord.Intents.default()
+intents.members = True
+
 client = discord.Client()
-client = commands.Bot(command_prefix='$')
+client = commands.Bot(command_prefix='$', intents = intents)
 
 
 startTime = datetime.now()
 
 
 async def sendUpdate():
-	await client.wait_until_ready()
 	#count = 0
 	user = client.get_user(USER_ID)
 	
 	userset = set()
 	for uid in tumble_files.getSubbedSet():
-		userset.add(client.get_user(uid))
+		userset.add(client.get_user(int(uid)))
 		
-		
-	while client.is_closed:
+	while not client.is_closed():
 		for name in tumble_files.getCreatorSet():
 			#print(name)
 			message = tumble_files.checkForUpdates(name)
-			if message:
+			if message and userset != set():
 				for mUser in userset:
 					await mUser.send(message)
-				#await user.send(message)
 			
 		#message = checkForUpdates(CREATOR_A)
 		#messageB = checkForUpdates(CREATOR_B)
@@ -62,8 +62,10 @@ async def sendUpdate():
 @client.event
 async def on_ready():
 	#Bot is logged in
+	await client.wait_until_ready()
 	print('Logged in as {0.user}'.format(client))
 	await client.change_presence(activity=discord.Game(name='The Waiting Game'))
+	client.loop.create_task(sendUpdate())
 
 @client.event
 async def on_message(message):
@@ -106,7 +108,7 @@ async def on_message(message):
 		if message.author.id not in tumble_files.getSubbedSet():
 			await user.send("You must be subscribed to remove a creator.")
 		else:
-			mCreator = message.content.split(" ")[1];
+			mCreator = message.content.split(" ")[1]
 			if tumble_files.removeCreator(mCreator):
 				await user.send("Successfully removed " + mCreator)
 			else:

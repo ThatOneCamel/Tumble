@@ -138,3 +138,12 @@ dmypy.json
 cython_debug/
 
 .DS_Store
+
+#Build files
+._tumble_bot.py
+._tumble_files.py
+._tumble_handler.py
+._tumble.py
+
+#Generated Files
+creators/*.txt

@@ -1,8 +1,6 @@
 #Cameron Thomas
-#May 2019
+#May 2019 | May 2021
 #ThomasCameronT@gmail.com
-ID_FILENAME = "users.dat"
-SUBS_FILENAME = "creators.dat"
 import importlib
 import tumble_files
 import tumble_bot
@@ -16,14 +14,13 @@ import tumble_bot
 #print(postSet)
 #store(myCreator, postSet)
 
-tumble_files.getUserInfo(ID_FILENAME)
-tumble_files.getUserInfo(SUBS_FILENAME)
+tumble_files.getUserInfo(tumble_files.ID_FILENAME)
+tumble_files.getUserInfo(tumble_files.SUBS_FILENAME)
 
-print("Users:")
+print("Subbed Users:")
 print(tumble_files.getSubbedSet())
 print("Creators:")
 print(tumble_files.getCreatorSet())
 
 #Starting Bot
-tumble_bot.client.loop.create_task(tumble_bot.sendUpdate())
 tumble_bot.client.run(tokenHere)

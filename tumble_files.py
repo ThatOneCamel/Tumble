@@ -47,7 +47,7 @@ def getPage(creator):
 #Reads saved post data on system
 def readData(creator):
 	oldSet = list()
-	filename = creator + "_posts.txt"
+	filename = "./creators/" + creator + "_posts.txt"
 	try:
 		mFile = open(filename, "r")
 		for post in mFile:
@@ -64,7 +64,7 @@ def readData(creator):
 		
 		
 def store(creator, posts):
-	filename = creator + "_posts.txt"
+	filename = "./creators/" + creator + "_posts.txt"
 	posts.sort()
 	try:
 		#Case file exists
