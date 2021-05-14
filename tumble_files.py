@@ -3,8 +3,10 @@ import re
 
 ID_FILENAME = "users.dat"
 SUBS_FILENAME = "creators.dat"
+TWITTER_FILENAME = "twitter_accounts.dat"
 creators = set()
 subbedUsers = set()
+twitterUsers = set()
 
 def annyeong():
 	hello = ["안녕", "World"]
@@ -18,7 +20,10 @@ def getCreatorSet():
 	
 def getSubbedSet():
 	return subbedUsers
-	
+
+def getTwitterAccounts():
+	return twitterUsers
+
 def getPage(creator):
 	try:
 		#Get html from webpage
@@ -61,8 +66,38 @@ def readData(creator):
 		#print("Returned old set. Old set =")
 		print(oldSet)
 		return oldSet
-		
-		
+
+def readStoredTweets(username):
+	readTweets = set()
+	filename= "./sentTweets/" + username + ".txt"
+	try:
+		mFile = open(filename, "r")
+		for tweetID in mFile:
+			readTweets.add(int(tweetID.strip()))
+		mFile.close()
+		return readTweets
+	except Exception as e:
+		print("Found error while reading tweets, creating [" + filename + "]")
+		mkFile = open(filename, 'w')
+		mkFile.close()
+		readTweets.add(-1)
+		return readTweets
+
+def storeTweet(username, id):
+	tweets = readStoredTweets(username)
+	filename= "./sentTweets/" + username + ".txt"
+	try:
+		mFile = open(filename, "w+")
+		tweets.add(id)
+		for tweet in tweets:
+			mFile.write(str(tweet) + "\n")
+		mFile.close()
+		print("Successfully stored tweets [" + mFile.name +"]")
+	except Exception as e:
+		print(e)
+		print("Found error while storing tweets")
+
+
 def store(creator, posts):
 	filename = "./creators/" + creator + "_posts.txt"
 	posts.sort()
@@ -165,6 +200,20 @@ def removeUser(uid):
 		return True
 	return False
 
+def addTwitterUser(user):
+	if user not in twitterUsers:
+		twitterUsers.add(user)
+		writeFile(TWITTER_FILENAME)
+		print("Successfully added " + str(user) + " to userIDs [" + TWITTER_FILENAME +"]")
+		return True
+	return False
+
+def removeTwitterUser(user):
+	if user in twitterUsers:
+		subbedUsers.remove(user)
+		writeFile(TWITTER_FILENAME)
+		return True
+	return False
 
 def writeFile(filename):
 	userFile = open(filename, "w+")
@@ -176,7 +225,11 @@ def writeFile(filename):
 	elif filename == SUBS_FILENAME:
 		for author in creators:
 			userFile.write(str(author) + "\n")
-			
+
+	elif filename == TWITTER_FILENAME:
+		for account in twitterUsers:
+			userFile.write(str(account) + "\n")
+
 	userFile.close()
 	return
 
@@ -193,6 +246,11 @@ def getUserInfo(filename):
 			for author in userFile:
 				creators.add(author.strip())
 			print("Retrieved Creator Subscriptions")
+		
+		elif filename == TWITTER_FILENAME:
+			for account in userFile:
+				twitterUsers.add(account.strip())
+			print("Retrieved Twitter Accounts")
 
 		userFile.close()
 		return

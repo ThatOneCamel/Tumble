@@ -4,8 +4,8 @@
 import importlib
 import tumble_files
 import tumble_bot
-
-#Tumble Code
+import tweepy
+#Tumble/Tweety Code
 
 #c_enabled = True
 #Data initialization
@@ -14,13 +14,12 @@ import tumble_bot
 #print(postSet)
 #store(myCreator, postSet)
 
-tumble_files.getUserInfo(tumble_files.ID_FILENAME)
-tumble_files.getUserInfo(tumble_files.SUBS_FILENAME)
+#tumble_files.getUserInfo(tumble_files.ID_FILENAME)
+#tumble_files.getUserInfo(tumble_files.SUBS_FILENAME)
 
-print("Subbed Users:")
-print(tumble_files.getSubbedSet())
-print("Creators:")
-print(tumble_files.getCreatorSet())
+tumble_files.getUserInfo(tumble_files.TWITTER_FILENAME)
+print("Current Twitter Account: " + tumble_bot.ACCOUNT_NAME)
+#print(tumble_files.getCreatorSet())
 
 #Starting Bot
-tumble_bot.client.run(tokenHere)
+tumble_bot.client.run('your_id_here')
